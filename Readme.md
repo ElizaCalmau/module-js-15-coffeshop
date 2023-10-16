@@ -1,7 +1,7 @@
 ## il caffè ##
 My module project on JS.
 
-** Here's a link to check how it works **
+### Here's a link to check how it works ###
 https://elizacalmau.github.io/module-js-15-coffeshop/
 
 
