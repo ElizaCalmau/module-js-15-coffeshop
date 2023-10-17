@@ -33,6 +33,11 @@ const productsArray = [
 
 let productsHolder = document.querySelector('.prod_holder')
 let greenCardCheck = document.querySelector('.cart_check')
+let cartContainer = document.querySelector('.cart_window');
+
+let cart = {
+    
+}
 
 
 function createProducts() {
@@ -61,21 +66,30 @@ function createProducts() {
   cardButton.innerText = 'ADD TO CART';
   productCard.append(cardButton);
 
-
+ 
   cardButton.onclick = function () {
     cardButton.innerText = 'Added to cart ✓';
     cardButton.classList.remove('prod_btn');
     cardButton.classList.add('added_to_cart');
     greenCardCheck.style.display = 'block';
 
+    
+    
   }
   })
   
 }
 
-
-  
   createProducts()
+
+
+
+
+
+
+
+
+
 
 
 
