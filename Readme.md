@@ -13,3 +13,7 @@ It's online store where you can buy coffee, coffee machine of another accessorie
 
 Slider was made with Slick 
 https://kenwheeler.github.io/slick/
+
+
+## Features of program development ##
+Products are creating dynamicly from array of products;
