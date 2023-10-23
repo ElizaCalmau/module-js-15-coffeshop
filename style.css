@@ -165,7 +165,7 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
 
 /* CART */
 .cart_window{
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     justify-content: space-between;
     width: 22%;
@@ -174,8 +174,16 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
     position: absolute;
     right: 0;
     border: 1px solid grey;
+    display: none;
 }
-
+.limit_message{
+    display: none;
+    text-align: center;
+    font-size: 10px;
+}
+.visible{
+    display: flex;
+}
 .cart_item{
     width: 95%;
     height: fit-content;
@@ -223,7 +231,7 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
     justify-content: space-around;
     padding: 20px;
     width: 84%;
-    margin: 0 auto;
+    margin: 30px auto;
     border-top: 1px solid #d1d1d1;
 }
 .total_price{
