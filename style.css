@@ -240,6 +240,17 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
 .cart_actions{
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
+    margin: 10px 0;
+    align-items: center;
+}
+.non_active{
+    color: gray;
+    cursor : default;
+}
+.empty{
+    display: none;
+    color: red;
 }
 /* FOOTER */
 .footer_container{

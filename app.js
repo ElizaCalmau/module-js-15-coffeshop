@@ -54,16 +54,34 @@ const shopStock = [
   }
 ]
 
-let productsHolder = document.querySelector('.prod_holder');//in hero 3 prods container
-let greenCardCheck = document.querySelector('.cart_check')// green check icon appears in navbar when you add somethimg to cart
-let cartContainer = document.querySelector('.cart_window'); // cart items holder
-let cartIcon = document.querySelector('.cart_icon');//icon of the cart in header
+const productsHolder = document.querySelector('.prod_holder');//in hero 3 prods container
+const greenCardCheck = document.querySelector('.cart_check')// green check icon appears in navbar when you add somethimg to cart
+const cartContainer = document.querySelector('.cart_window'); // cart wrapper
+const itemsWrapper = document.querySelector('.cart_items')
+const cartIcon = document.querySelector('.cart_icon');//icon of the cart in header
+const totalPrice = document.querySelector('.price');
+const cartActions = document.querySelector('.cart_actions');
+const checkout = document.querySelector('.checkout');
+const contShopping = document.querySelector('.continue_shopping');
+const message = document.querySelector('.empty');
+
+checkout.addEventListener('click', function checkoutStyle(){//imitates loading if click on 'checkout', there should be al least 1 itam in cart
+  if(userCart.length > 0){
+    checkout.style.cursor = 'wait'
+  }
+})
+
+contShopping.addEventListener('click', function(){ //hide cart if click 'continues shopping'
+  cartContainer.classList.remove('visible');
+  checkCart();
+})
+
+let userCart = [ // without let would not work properly
+
+]//arr of user cart items
 
 
-  let userCart = [
-
-  ]//arr of user cart items
-
+// functions which create products in page 
 function createProdCard (){//create an empty card
   const productCard = document.createElement('div');  
   productCard.classList.add('product');
@@ -99,19 +117,18 @@ function createProdBtn(currentProd, currentObj){
   cardButton.classList.add('prod_btn');
   cardButton.innerText = 'ADD TO CART';
   cardButton.setAttribute('id', currentObj.id)
-  console.log(cardButton.id)
   currentProd.append(cardButton);
   return cardButton;
 }
 
-function createProducts(objects) {  
+function createProducts(objects) { //main function which calls other to create prod
   objects.forEach((obj) => {
   const currentProduct = createProdCard();
   createProdImg(currentProduct, obj);
   createProdDescriber(currentProduct, obj);
   createProdPrice(currentProduct, obj);
   const currentBtn = createProdBtn(currentProduct, obj);
-  currentBtn.addEventListener('click', function(){
+  currentBtn.addEventListener('click', function(obj){
     addToCart(currentBtn);
   }, { once: true });//add once
 
@@ -120,81 +137,43 @@ function createProducts(objects) {
   
 }
 createProducts(shopStock);
- 
+//
+
+
 function changeCartVisibility(){ //allows to show and hide cart
   cartContainer.classList.toggle('visible')
   }
 
 
-function addToCart(btn){  //add item to cart 
-  btn.innerText = 'Added to cart ✓';
-  btn.classList.remove('prod_btn');
-  btn.classList.add('added_to_cart');
-  greenCardCheck.style.display = 'block';
-  cartContainer.style.height = 'fit-content';
-  cartContainer.classList.add('visible');
-  replaceProduct(btn);
-}
-
-function decreaseStockQuantity(prod){ //decrease quantity in stock
-  prod.stockQuantity -= 1;
-}
-
-function replaceProduct(btn){//this func add prod to user cart (arr) and reduces quantity in stock
-  shopStock.forEach((prod) => {
-    //debugger;
-    if(prod.id == btn.id){ 
-      console.log(prod); //show prod in stock 
-      const userProd = {  //create new product and push it to user cart
-        id: prod.id,
-        name : prod.name,
-        price: prod.price,
-        weight: prod.weight,
-        quantity: 1,
-        imgURL: prod.imgURL,
-      }
-      if (userCart.length === 0){
-        userCart.push(userProd);
-      }else {
-        userCart = [];
-        userCart.push(userProd);
-      }
-      decreaseStockQuantity(prod);
-      renderInCart(userCart);
-      }
-      
-  })
-  console.log(userCart); //show item from cart in console
-}
-
-function renderInCart(cart){ // cart - user Cart array. This func render item in cart
-
-  cart.forEach((item)=>{
-    const cartItemWrapper = createCartItem(); 
-    createCartImg(cartItemWrapper, item); // creates container with photo of prod
-    createCartInfo(cartItemWrapper, item) //// creates container with information about product
-  })
-
-}
-
-function createCartItem(){ //creates an empty wrapper for item in cart
-  const cartItem = document.createElement('div');
-  cartItem.classList.add('cart_item');
-  cartContainer.prepend(cartItem);
+//functions which add items to cart
+  function renderInCart(cart){ // cart - user Cart array. This func render item in cart
+    
+    cart.forEach((item)=>{
+      const cartItemWrapper = createCartItem(); 
+      createCartImg(cartItemWrapper, item); // creates container with photo of prod
+      createCartInfo(cartItemWrapper, item) //// creates container with information about product
+    })
+    
+  }
   
-  return cartItem;
-}
-
+  function createCartItem(){ //creates an empty wrapper for item in cart
+    const cartItem = document.createElement('div');
+    cartItem.classList.add('cart_item');
+    itemsWrapper.prepend(cartItem);
+    
+    return cartItem;
+  }
+  
 function createCartImg(currentProd, currentItem){  // currentProd - emty wrapper for each rendered product in cart
-  const cartItemImgContainer = document.createElement('div');
-  cartItemImgContainer.classList.add('cart_img_container'); // img container
-  const cartImg = document.createElement('img'); // the img in cart 
-  cartImg.classList.add('cart_img');
-  cartImg.src = currentItem.imgURL; // takes url from item in cart
-  cartItemImgContainer.append(cartImg);
-  currentProd.prepend(cartItemImgContainer);
-}
-
+    const cartItemImgContainer = document.createElement('div');
+    cartItemImgContainer.classList.add('cart_img_container'); // img container
+    const cartImg = document.createElement('img'); // the img in cart 
+    cartImg.classList.add('cart_img');
+    cartImg.src = currentItem.imgURL; // takes url from item in cart
+    cartItemImgContainer.append(cartImg);
+    currentProd.prepend(cartItemImgContainer);
+  }
+  
 function createCartInfo(currentProd, currentItem, stock){ //function which add info about prod and call another particular funcs
   const cartInfoWrapper = document.createElement('div');
   cartInfoWrapper.classList.add('cart_info');
@@ -226,16 +205,16 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
   const decreaseCartBtn = document.createElement('span'); 
   decreaseCartBtn.classList.add('before');
   decreaseCartBtn.innerText = '<';
-
+  
   const currentQuantity = document.createElement('div');
   currentQuantity.classList.add('quantity');
   currentQuantity.innerText = currentItem.quantity;
-
+  
   const increaseCartBtn = document.createElement('span'); 
   increaseCartBtn.classList.add('after');
   increaseCartBtn.innerText = '>';
   quantityWrapper.append(increaseCartBtn);
-
+  
   const cartId = currentItem.id;
 
   let stockQ;
@@ -243,12 +222,12 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
   function decreaseStock (){//change quantity in stock
     //debugger;
     shopStock.forEach( (el) => {
-    if(el.id == cartId) {
-      stockQ = el.stockQuantity;
-      el.stockQuantity -=1;
-      console.log(el);
-    }
-  })
+      if(el.id == cartId) {
+        stockQ = el.stockQuantity;
+        el.stockQuantity -=1;
+        console.log(el);
+      }
+    })
   }
   
   function increaseStock(){//change quantity in stock
@@ -260,7 +239,9 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       }
     })
   }
-
+  
+  
+  
   increaseCartBtn.addEventListener('click', function(){ //increase quantity of prod in cart (not mutch than quantity in stock)
     //debugger;
     let num = Number(currentQuantity.innerText);
@@ -269,29 +250,110 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       num += 1;
       currentQuantity.innerText = num;
       currentItem.quantity +=1;
+      caclTotal(currentItem.price)
     }
     console.log(userCart);
   })
 
   decreaseCartBtn.addEventListener('click', function(){//decrease quantity of prod in cart, remove if 0 products
-
     let n = Number(currentQuantity.innerText);
     if(n > 0){
       increaseStock();
       n -= 1;
       currentItem.quantity -=1;
-     currentQuantity.innerText = n;
-
+      currentQuantity.innerText = n;
+      caclTotal(-currentItem.price);
     }
     
     if(n < 1){
       currentProd.remove();
       currentItem.quantity = 0;
+      userCart = []
+      checkButton(document.querySelector('.added_to_cart'));
+      checkCart()
     }
-     console.log(userCart);
+    console.log(userCart);
   })
   
+
   quantityWrapper.append(decreaseCartBtn, currentQuantity, increaseCartBtn);
   wrapper.append(quantityWrapper);
 }
 
+
+//actions with cart
+function addToCart(btn){  //add item to cart 
+  btn.innerText = 'Added to cart ✓';
+  btn.classList.remove('prod_btn');
+  btn.classList.add('added_to_cart');
+  greenCardCheck.style.display = 'block';
+  cartContainer.style.height = 'fit-content';
+  cartContainer.classList.add('visible');
+  replaceProduct(btn);
+  checkCart()
+}
+
+function checkCart(){ //check state of cart and changes styles according to state
+
+  if(itemsWrapper.innerHTML.trim() === "" ){
+    checkout.classList.add('cart_actions');
+    checkout.classList.add('non_active');
+    message.style.display = 'flex';
+    greenCardCheck.style.display = 'none';
+    // button.innerText = 'ADD TO CART';
+    // button.classList.add('prod_btn');
+    // button.classList.remove('added_to_cart');
+      
+    } else {
+    checkout.classList.remove('non_active');
+    checkout.classList.add('cart_actions');
+    message.style.display = 'none';
+    greenCardCheck.style.display = 'block';
+  }
+}
+function checkButton(button){//if element deleted from cart remove 'Added to cart'
+  if(userCart.length === 0){
+    button.innerText = 'ADD TO CART';
+    button.classList.add('prod_btn');
+    button.classList.remove('added_to_cart');
+  }
+}
+function caclTotal(price){
+  let priceNum = Number(totalPrice.innerText);
+  priceNum += price;
+  totalPrice.innerText = priceNum;
+}
+function decreaseStockQuantity(prod){ //decrease quantity in stock
+  prod.stockQuantity -= 1;
+}
+
+function replaceProduct(btn){//this func add prod to user cart (arr) and reduces quantity in stock
+  shopStock.forEach((prod) => {
+    //debugger;
+    if(prod.id == btn.id){ 
+      console.log(prod); //show prod in stock 
+      const userProd = {  //create new product and push it to user cart
+        id: prod.id,
+        name : prod.name,
+        price: prod.price,
+        weight: prod.weight,
+        quantity: 1,
+        imgURL: prod.imgURL,
+      }
+      if (userCart.length === 0){
+        userCart.push(userProd);
+      }else {
+        userCart = [];
+        userCart.push(userProd);
+      }
+
+      decreaseStockQuantity(prod);
+      renderInCart(userCart);
+
+      caclTotal(prod.price)
+      }
+      
+  })
+  console.log(userCart); //show item from cart in console
+}
+checkCart();

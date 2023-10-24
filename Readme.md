@@ -16,7 +16,18 @@ https://kenwheeler.github.io/slick/
 
 
 ## Features of program development ##
-Products are creating dynamicly from array of products;
-You can change quantity of products in your cart.
-If you wil push in button 'ADD TO CART' product will be added into your cart and 
-will be changed quantity in stock; You can use this button single time to add item in card, if you want to change a quantity of products in your cart you can use buttons "<" and ">" right in cart. If quantity less than 1 the item will be removed from your cart; 
+Products are creating dynamicly from array of products; Product images are takes by link from this github repo.
+If you will push button 'ADD TO CART' product will be added into your cart and 
+will be changed quantity in stock; Also the button styles will be changed.
+You can use this button single time to add item in card, if you want to change a quantity of products in your cart you can use buttons "<" and ">" right in the cart.
+You can not add more products in cart than it was in stock.
+
+'Total' shows and calculate total price amount of all items in your card according to it quantity and cost.
+
+If quantity less than 1 the item will be removed from your cart; If there's no items in cart 'checkout' will be gray and you'll see message 'Сart is empty'. If there any item in cart if you will click on 'checkout' and cursor will turn to 'wait' state which imitates page loading, but you have to hover on it to see.
+If you'll click on 'continue shopping' the cart will be hidden;
+
+The green check singn will apper in cart icon (in header) if there's any item in it. And will disappear if you'll delete all items from cart. You also can delete item by decreasinc it quantity in card;
+The same way if cart is empty button 'Added to cart' will turn to initial state.
+
+
