@@ -1,4 +1,4 @@
-## il caffè - online store##
+## il caffè - online store ##
 My module project on JS.
 
 ### Here's a link to check how it works ###
