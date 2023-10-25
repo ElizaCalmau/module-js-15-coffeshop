@@ -41,3 +41,6 @@ If you'll scroll down a little in right bottom corner will appear a button ↑ w
 If your screen width less than 900px container with products will appear instead the slider, and slider will be at the bottom fo the page. 
 
 If your screen less than 750px the products (in product container) will be placed in column.
+
+
+In console you can see info about stock and user's cart.
