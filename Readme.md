@@ -8,12 +8,14 @@ https://elizacalmau.github.io/module-js-15-coffeshop/
 ## Descriprion ##
 It's online store where you can buy coffee, coffee machine of another accessories for making and enjoying your coffee.
 
+## Mockup ##
+https://www.figma.com/file/J5ICcTOaaaErQXfqgwvpjw/CoffeShop-Mockup-Module-JS-15?type=design&t=LAP9GJnGjxmtCdgY-6
 
 ## Tech stack ##
- Markup : *JS
- *HTML
- *CSS
- *Slick slider https://kenwheeler.github.io/slick/
+JS
+HTML
+CSS
+Slick slider https://kenwheeler.github.io/slick/
 
 
 ## Features of program development ##
