@@ -49,7 +49,7 @@ const shopStock = [
     name: "Coffe Mug", 
     description: "Coffe Mug", 
     price: 3, weight: '330ml', 
-    imgURL: 'https://raw.githubusercontent.com/ElizaCalmau/module-js-15-coffeshop/main/img/coffee_mug.jpg',  
+    imgURL: 'https://raw.githubusercontent.com/ElizaCalmau/module-js-15-coffeshop/main/githubIMG/coffee_mug_1.jpg',  
     stockQuantity: 100,
   }
 ]
@@ -64,12 +64,17 @@ const cartActions = document.querySelector('.cart_actions');
 const checkout = document.querySelector('.checkout');
 const contShopping = document.querySelector('.continue_shopping');
 const message = document.querySelector('.empty');
+const toTop = document.querySelector('.to_top')
+const main = document.querySelector('main')
+
 
 checkout.addEventListener('click', function checkoutStyle(){//imitates loading if click on 'checkout', there should be al least 1 itam in cart
   if(userCart.length > 0){
     checkout.style.cursor = 'wait'
   }
 })
+
+
 
 contShopping.addEventListener('click', function(){ //hide cart if click 'continues shopping'
   cartContainer.classList.remove('visible');
@@ -96,6 +101,7 @@ function createProdImg(currentProd, currentObj){ //currentProd - empty card whic
   currentProd.prepend(prodImg);
   return prodImg;
 }
+
 
 function createProdDescriber(currentProd, currentObj) {
   const cardDescriber = document.createElement('div');
@@ -141,9 +147,9 @@ createProducts(shopStock);
 
 
 function changeCartVisibility(){ //allows to show and hide cart
-  cartContainer.classList.toggle('visible')
-  }
+  cartContainer.classList.toggle('visible');
 
+}
 
 //functions which add items to cart
   function renderInCart(cart){ // cart - user Cart array. This func render item in cart
@@ -357,3 +363,24 @@ function replaceProduct(btn){//this func add prod to user cart (arr) and reduces
   console.log(userCart); //show item from cart in console
 }
 checkCart();
+
+
+window.addEventListener("scroll", function(){//fix cart in top of the viewport
+console.log(this.window.scrollY)
+  if(this.window.scrollY < 10){
+  cartContainer.style.top = 62 + 'px';//put cart in initial posititon
+}
+if (this.window.scrollY > 30){
+  cartContainer.style.top = 0;//fix cart to the top 
+}
+if(this.window.scrollY > 50){ //brings you to top
+  toTop.style.display = 'flex';//show to-top button
+  toTop.addEventListener('click', function(){
+  //debugger;
+  window.scrollTo(0, 0);
+})
+}
+if(this.window.scrollY < 50){
+  toTop.style.display = 'none'; //hide to-top btn
+}
+})

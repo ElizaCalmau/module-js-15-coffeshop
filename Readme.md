@@ -30,4 +30,14 @@ If you'll click on 'continue shopping' the cart will be hidden;
 The green check singn will apper in cart icon (in header) if there's any item in it. And will disappear if you'll delete all items from cart. You also can delete item by decreasinc it quantity in card;
 The same way if cart is empty button 'Added to cart' will turn to initial state.
 
+The max-width is 1700px, and if your screen is bigger than 1170px you'll see desktop light theme.
 
+When width of screen less than 1170px theme turns to dark and elements (slider and product container) are placed in coloumn.(Later will be called mobile)
+
+If you'll open cart in 'Mobile' and scroll down it will be fixed in the rigth top corner of the viewport, and get back if you will scroll right to the top.
+
+If you'll scroll down a little in right bottom corner will appear a button ↑ which will bring you to the top of the page. And if you are on the top of the page it will disappear.
+
+If your screen width less than 900px container with products will appear instead the slider, and slider will be at the bottom fo the page. 
+
+If your screen less than 750px the products (in product container) will be placed in column.
