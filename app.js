@@ -369,6 +369,9 @@ window.addEventListener("scroll", function(){//fix cart in top of the viewport
 console.log(this.window.scrollY)
   if(this.window.scrollY < 10){
   cartContainer.style.top = 62 + 'px';//put cart in initial posititon
+  if(window.innerWidth < 500){
+    cartContainer.style.top = 54 + 'px';
+  }
 }
 if (this.window.scrollY > 30){
   cartContainer.style.top = 0;//fix cart to the top 
