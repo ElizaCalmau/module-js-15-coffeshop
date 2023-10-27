@@ -49,7 +49,7 @@ const shopStock = [
     name: "Coffe Mug", 
     description: "Coffe Mug", 
     price: 3, weight: '330ml', 
-    imgURL: 'https://raw.githubusercontent.com/ElizaCalmau/module-js-15-coffeshop/main/githubIMG/coffee_mug_1.jpg',  
+    imgURL: 'https://raw.githubusercontent.com/ElizaCalmau/module-js-15-coffeshop/main/img/coffee_mug.jpg',  
     stockQuantity: 100,
   }
 ]
