@@ -66,6 +66,9 @@ const contShopping = document.querySelector('.continue_shopping');
 const message = document.querySelector('.empty');
 const toTop = document.querySelector('.to_top')
 const main = document.querySelector('main')
+const burgerMenuWrapper = document.querySelector('.burger_wrapper');
+const burgerMenuBtn = document.querySelector('.burger');
+const headerMenu = document.querySelector('.header_menu')
 
 
 checkout.addEventListener('click', function checkoutStyle(){//imitates loading if click on 'checkout', there should be al least 1 itam in cart
@@ -74,7 +77,14 @@ checkout.addEventListener('click', function checkoutStyle(){//imitates loading i
   }
 })
 
-
+burgerMenuWrapper.addEventListener('click', function(){
+  headerMenu.classList.toggle('visible');
+  if(headerMenu.classList.contains('visible')){
+    cartContainer.style.width = '64%';
+  } else {
+    cartContainer.style.width = '100%'
+  }
+})
 
 contShopping.addEventListener('click', function(){ //hide cart if click 'continues shopping'
   cartContainer.classList.remove('visible');
@@ -366,23 +376,29 @@ checkCart();
 
 
 window.addEventListener("scroll", function(){//fix cart in top of the viewport
-console.log(this.window.scrollY)
+//console.log(this.window.scrollY);
+if (window.scrollY > 30){
+  cartContainer.classList.add('sticky');//fix cart to the top
+}
   if(this.window.scrollY < 10){
-  cartContainer.style.top = 62 + 'px';//put cart in initial posititon
-  if(window.innerWidth < 500){
-    cartContainer.style.top = 54 + 'px';
+    cartContainer.classList.remove('sticky');
+    cartContainer.classList.add('top');//put cart in initial posititon
   }
-}
-if (this.window.scrollY > 30){
-  cartContainer.style.top = 0;//fix cart to the top 
-}
+
 if(this.window.scrollY > 50){ //brings you to top
   toTop.style.display = 'flex';//show to-top button
   toTop.addEventListener('click', function(){
   //debugger;
-  window.scrollTo(0, 0);
+    let count = window.scrollY;
+    setInterval(()=>{
+      if(count > 0){
+         count -= 20;
+       window.scrollTo(0, count); //smoothly brings you to top of the page
+      }
+    }, 10)
 })
 }
+
 if(this.window.scrollY < 50){
   toTop.style.display = 'none'; //hide to-top btn
 }

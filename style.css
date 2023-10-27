@@ -11,7 +11,38 @@ header{
     display: flex;
     justify-content: space-around;
 }
-nav > ul {
+.burger{
+    width: 23px;
+    height: 2px;
+    background-color: #000;
+    position: absolute;
+    top: 47%;
+    display: none;
+}
+.burger:before{
+    content: '';
+    width: 23px;
+    height: 2px;
+    background-color: #000;
+    position: absolute;
+    top: -7px;
+}
+.burger:after{
+    content: '';
+    width: 23px;
+    height: 2px;
+    background-color: #000;
+    position: absolute;
+    top: 7px;
+}
+.burger_wrapper{
+    width: 25px;
+    height: 25px;
+    position: relative;
+    top: 14px;
+    display: none;
+}
+.header_menu {
     display: flex;
     justify-content: space-around;
     width: 10em;
@@ -24,13 +55,13 @@ li > a {
     color: #fff;
     font-size: 13px;
 }
-nav a {
+.header_menu a {
     color: black;
     text-transform: uppercase;
     font-size: 20px;
     padding: 1em;
 }
-nav a:hover{
+.header_menu a:hover{
     color: rgb(114, 90, 90);
 }
 .cart{
@@ -122,7 +153,7 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
 
 .product{
     width: 26%;
-    height: auto;
+    height: fit-content;
     background-color: aliceblue;
     color: #fff;
 }
@@ -206,6 +237,13 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
     border: 1px solid grey;
     display: none;
     z-index: 100;
+    transition: all 0.3s ease;
+}
+.top{
+    transform: translateY(0);
+}
+.sticky{
+    transform: translateY(-62px);
 }
 .limit_message{
     display: none;
@@ -213,7 +251,7 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
     font-size: 10px;
 }
 .visible{
-    display: flex;
+    display: flex !important;
 }
 .cart_item{
     width: 95%;
@@ -265,9 +303,7 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
     margin: 30px auto;
     border-top: 1px solid #d1d1d1;
 }
-.total_price{
-    /* padding: 0 30px; */
-}
+
 .cart_actions{
     display: flex;
     justify-content: space-between;
@@ -325,7 +361,6 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
 @media (max-width: 1600px) {
     .product{
         width: 26%;
-        height: 103%;
     }
     .prod_holder{
         gap: 2em;
@@ -431,11 +466,11 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
         gap: 2em;
     }
 
-   nav a {
+   .header_menu a {
     font-size: 13px;
     padding: 6px;
    }
-   nav ul {
+   .header_menu {
     width: 2em;
    }
 
@@ -466,20 +501,39 @@ button.slick-prev.slick-arrow, button.slick-next.slick-arrow {
     .logo img {
         width: 108px;
     }
-    nav a {
+    .header_menu a {
         font-size: 10px;
     }
     .cart_window{
         top: 54px;
+        width: 100%;
     }
-}
-@media (max-width: 400px) {
+
     .social_media li {
         padding: 0 9px;
     }
-    
-    
-    .logo img {
+    .header_menu {
+        flex-direction: column;
+        position: absolute;
+        background-color: gray;
+        z-index: 100;
+        padding: unset;
         display: none;
+        width: 35%;
+        left: 0;
+        background-color: #fff;
+        border: 1px solid grey;
+        transform: translateY(13px);
+        transition: all 03.s ease;
+    }
+    .header_menu a {
+        font-size: 15px;
+    }
+    .header_menu li{
+        padding: 10px;
+        margin: 10px;
+    }
+    .burger_wrapper, .burger {
+        display: block;
     }
 }
