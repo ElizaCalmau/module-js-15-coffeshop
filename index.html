@@ -10,7 +10,12 @@
 <body>
     <header>
         <nav>
-            <ul>
+            <div class="burger_wrapper">
+                <div class="burger"></div>
+            </div>
+             
+
+            <ul class="header_menu">
                 <li><a href="#">home</a></li>
                 <li><a href="#">about</a></li>
                 <li><a href="#">catalog</a></li>
@@ -21,8 +26,9 @@
         </div>
         <div class="cart">
            <a href="#">
-            <img src="img/cart_icon.png" alt="cart">
+            <img class ='cart_icon' src="img/cart_icon.png" alt="cart">
             <img class='cart_check' src="./img/check_card.svg">
+
         </a>
         </div>
     </header>
@@ -33,8 +39,8 @@
                 <div class="slider">
                 <div class="one-time">
                     <div><img src="./img/slider.jpg" alt="img1"></div>
-                    <div><img src="./img/slider.jpg" alt="img2"></div>
-                    <div><img src="./img/slider.jpg" alt="img3"></div>
+                    <div><img src="./img/slider_1.jpg" alt="img2"></div>
+                    <div><img src="./img/slider_2.jpg" alt="img3"></div>
                 </div>
             </div>
             </div>
@@ -43,16 +49,31 @@
                 <div class="prod_title">
                     Featured Products
                 </div>
-                <!-- <div class="product">
-                         <img class="prod_img">
-                        <div class="prod_decs"></div>
-                        <div class="prod_price"></div>
-                        <button class="prod_btn"></button>
-                </div> -->
                 <div class="prod_holder">
 
                 </div>
+
             </div>
+
+
+            <div class="cart_window">
+                <div class="cart_items"></div>
+                <div class="cart_total">
+                    <span class='empty'>Cart is empty</span> 
+                    <div class="total_price">
+                    Total: $ <span class="price"></span>
+                    </div>
+                    <div class="cart_actions">
+                        <div class="continue_shopping">
+                            Continue Shopping
+                        </div>
+                        <div class="checkout">
+                            Checkout 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="to_top">↑</div>
         </div>
     </main>
     <footer>
