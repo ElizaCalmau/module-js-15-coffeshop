@@ -12,10 +12,11 @@ It's online store where you can buy coffee, coffee machine of another accessorie
 https://www.figma.com/file/J5ICcTOaaaErQXfqgwvpjw/CoffeShop-Mockup-Module-JS-15?type=design&t=LAP9GJnGjxmtCdgY-6
 
 ## Tech stack ##
-JS
-HTML
-CSS
-Slick slider https://kenwheeler.github.io/slick/
+- JS
+- HTML
+- CSS
+- Slick slider 
+
 
 
 ## Features of program development ##
