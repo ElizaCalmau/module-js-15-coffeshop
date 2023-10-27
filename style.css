@@ -18,9 +18,11 @@ header {
   justify-content: space-around;
   width: 10em;
 }
+
 li {
   list-style: none;
 }
+
 li > a {
   text-decoration: none;
   color: #fff;
@@ -33,6 +35,7 @@ li > a {
   font-size: 20px;
   padding: 1em;
 }
+
 .header_menu a:hover {
   color: rgb(114, 90, 90);
 }
@@ -110,6 +113,7 @@ li > a {
 .slider_container {
   width: 50%;
 }
+
 .hero_title,
 .prod_title {
   background-color: #3f2929;
@@ -358,6 +362,8 @@ button.slick-next.slick-arrow {
   padding: 0 1em;
 }
 
+
+
 @media (max-width: 1600px) {
   .product {
     width: 26%;
@@ -441,9 +447,7 @@ button.slick-next.slick-arrow {
     width: 36%;
     position: fixed;
   }
-  body > main > div > div > div.slider > div > div {
-    right: 0;
-  }
+
 }
 
 @media (max-width: 900px) {
@@ -475,7 +479,7 @@ button.slick-next.slick-arrow {
   }
 
   .product {
-    width: 46%;
+    width: 90%;
   }
   .logo img {
     width: 139px;
@@ -484,9 +488,7 @@ button.slick-next.slick-arrow {
 }
 
 @media (max-width: 600px) {
-  .product {
-    width: 90%;
-  }
+
   .contacts ul {
     display: none;
   }
