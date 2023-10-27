@@ -1,21 +1,3 @@
-// $(document).ready(function() {
-//     $('.slider-for').slick({
-//       slidesToShow: 1,
-//       slidesToScroll: 1,
-//       arrows: false,
-//       fade: true,
-//       asNavFor: '.slider-nav'
-//     });
-//     $('.slider-nav').slick({
-//       slidesToShow: 3,
-//       slidesToScroll: 1,
-//       asNavFor: '.slider-for',
-//       dots: true,
-//       centerMode: true,
-//       focusOnSelect: true
-//     });
-//   });
- 
 $('.one-time').slick({
     dots: true,
     infinite: true,
@@ -64,11 +46,10 @@ const cartActions = document.querySelector('.cart_actions');
 const checkout = document.querySelector('.checkout');
 const contShopping = document.querySelector('.continue_shopping');
 const message = document.querySelector('.empty');
-const toTop = document.querySelector('.to_top')
-const main = document.querySelector('main')
+const toTop = document.querySelector('.to_top');
+const main = document.querySelector('main');
 const burgerMenuWrapper = document.querySelector('.burger_wrapper');
-const burgerMenuBtn = document.querySelector('.burger');
-const headerMenu = document.querySelector('.header_menu')
+const headerMenu = document.querySelector('.header_menu');
 
 
 checkout.addEventListener('click', function checkoutStyle(){//imitates loading if click on 'checkout', there should be al least 1 itam in cart
@@ -97,6 +78,20 @@ let userCart = [ // without let would not work properly
 
 
 // functions which create products in page 
+function createProducts(objects) { //main function which calls other to create prod
+  objects.forEach((obj) => {
+  const currentProduct = createProdCard();
+  createProdImg(currentProduct, obj);
+  createProdDescriber(currentProduct, obj);
+  createProdPrice(currentProduct, obj);
+  const currentBtn = createProdBtn(currentProduct, obj);
+  currentBtn.addEventListener('click', function(obj){
+    addToCart(currentBtn);
+  }, { once: true });//add once
+
+  cartIcon.addEventListener('click', changeCartVisibility)
+  })
+  
 function createProdCard (){//create an empty card
   const productCard = document.createElement('div');  
   productCard.classList.add('product');
@@ -111,7 +106,6 @@ function createProdImg(currentProd, currentObj){ //currentProd - empty card whic
   currentProd.prepend(prodImg);
   return prodImg;
 }
-
 
 function createProdDescriber(currentProd, currentObj) {
   const cardDescriber = document.createElement('div');
@@ -137,29 +131,12 @@ function createProdBtn(currentProd, currentObj){
   return cardButton;
 }
 
-function createProducts(objects) { //main function which calls other to create prod
-  objects.forEach((obj) => {
-  const currentProduct = createProdCard();
-  createProdImg(currentProduct, obj);
-  createProdDescriber(currentProduct, obj);
-  createProdPrice(currentProduct, obj);
-  const currentBtn = createProdBtn(currentProduct, obj);
-  currentBtn.addEventListener('click', function(obj){
-    addToCart(currentBtn);
-  }, { once: true });//add once
-
-  cartIcon.addEventListener('click', changeCartVisibility)
-  })
-  
 }
 createProducts(shopStock);
-//
 
 
-function changeCartVisibility(){ //allows to show and hide cart
-  cartContainer.classList.toggle('visible');
 
-}
+
 
 //functions which add items to cart
   function renderInCart(cart){ // cart - user Cart array. This func render item in cart
@@ -172,7 +149,7 @@ function changeCartVisibility(){ //allows to show and hide cart
     
   }
   
-  function createCartItem(){ //creates an empty wrapper for item in cart
+function createCartItem(){ //creates an empty wrapper for item in cart
     const cartItem = document.createElement('div');
     cartItem.classList.add('cart_item');
     itemsWrapper.prepend(cartItem);
@@ -308,9 +285,11 @@ function addToCart(btn){  //add item to cart
   replaceProduct(btn);
   checkCart()
 }
+function changeCartVisibility(){ //allows to show and hide cart
+  cartContainer.classList.toggle('visible');
 
+}
 function checkCart(){ //check state of cart and changes styles according to state
-
   if(itemsWrapper.innerHTML.trim() === "" ){
     checkout.classList.add('cart_actions');
     checkout.classList.add('non_active');
@@ -334,18 +313,19 @@ function checkButton(button){//if element deleted from cart remove 'Added to car
     button.classList.remove('added_to_cart');
   }
 }
+
 function caclTotal(price){
   let priceNum = Number(totalPrice.innerText);
   priceNum += price;
   totalPrice.innerText = priceNum;
 }
+
 function decreaseStockQuantity(prod){ //decrease quantity in stock
   prod.stockQuantity -= 1;
 }
 
 function replaceProduct(btn){//this func add prod to user cart (arr) and reduces quantity in stock
   shopStock.forEach((prod) => {
-    //debugger;
     if(prod.id == btn.id){ 
       console.log(prod); //show prod in stock 
       const userProd = {  //create new product and push it to user cart
@@ -362,10 +342,8 @@ function replaceProduct(btn){//this func add prod to user cart (arr) and reduces
         userCart = [];
         userCart.push(userProd);
       }
-
       decreaseStockQuantity(prod);
       renderInCart(userCart);
-
       caclTotal(prod.price)
       }
       
@@ -375,7 +353,7 @@ function replaceProduct(btn){//this func add prod to user cart (arr) and reduces
 checkCart();
 
 
-window.addEventListener("scroll", function(){//fix cart in top of the viewport
+window.addEventListener("scroll", function(){//fixes cart in top of the viewport
 //console.log(this.window.scrollY);
 if (window.scrollY > 30){
   cartContainer.classList.add('sticky');//fix cart to the top
