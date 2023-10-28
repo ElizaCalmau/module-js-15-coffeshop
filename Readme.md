@@ -31,20 +31,20 @@ You can not add more products in cart than it was in stock.
 If quantity less than 1 the item will be removed from your cart; If there's no items in cart 'checkout' will be gray and you'll see message 'Сart is empty'. If there any item in cart if you will click on 'checkout' and cursor will turn to 'wait' state which imitates page loading, but you have to hover on it to see.
 If you'll click on 'continue shopping' the cart will be hidden;
 
-The green check singn will apper in cart icon (in header) if there's any item in it. And will disappear if you'll delete all items from cart. You also can delete item by decreasinc it quantity in card;
+The green check singn will apper in cart icon (in header) if there's any item in it. And will disappear if you'll delete all items from cart. You also can delete item by decreasing it quantity in card;
 The same way if cart is empty button 'Added to cart' will turn to initial state.
+You can toggle visibility of cart window by clicking in cart sign.
 
 The max-width is 1700px, and if your screen is bigger than 1170px you'll see desktop light theme.
 
-When width of screen less than 1170px theme turns to dark and elements (slider and product container) are placed in coloumn.(Later will be called mobile)
+When width of screen less than 1170px theme turns to dark and elements (slider and product container) are placed in coloumn.
+If you'll open cart in this state of screen and scroll down it will be fixed in the rigth top corner of the viewport, and get back if you will scroll right to the top. Cart motions is animated.
 
-If you'll open cart in 'Mobile' and scroll down it will be fixed in the rigth top corner of the viewport, and get back if you will scroll right to the top. Cart motions is animated.
+If you'll scroll down a little in right bottom corner appears a button ↑ which will smoothly bring you to the top of the page. And if you are on the top of the page it will disappear.
 
-If you'll scroll down a little in right bottom corner will appear a button ↑ which will smoothly bring you to the top of the page. And if you are on the top of the page it will disappear.
+If your screen width less than 900px container with products appears instead the slider, and slider will be at the bottom fo the page. 
 
-If your screen width less than 900px container with products will appear instead the slider, and slider will be at the bottom fo the page. 
-
-If your screen less than 750px the products (in product container) will be placed in column.
+If your screen less than 750px the products (in product container) will be placed in column. Each product would take a 90% width of viewport.
 
 if your screen less than 500px you'll se burger menu instead of inline menu. If you'll open cart and then open burger menu cart will shrink to 64% of screen, and will turn back if you'll close a bureger menu.
 
