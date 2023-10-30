@@ -49,6 +49,7 @@ const message = document.querySelector('.empty');
 const toTop = document.querySelector('.to_top');
 const main = document.querySelector('main');
 const burgerMenuWrapper = document.querySelector('.burger_wrapper');
+const burgerBtn =  document.querySelector('.burger');
 const headerMenu = document.querySelector('.header_menu');
 
 
@@ -57,6 +58,7 @@ checkout.addEventListener('click', function checkoutStyle(){//imitates loading i
     checkout.style.cursor = 'wait'
   }
 })
+
 
 burgerMenuWrapper.addEventListener('click', function(){
   headerMenu.classList.toggle('visible');
@@ -381,3 +383,4 @@ if(this.window.scrollY < 50){
   toTop.style.display = 'none'; //hide to-top btn
 }
 })
+

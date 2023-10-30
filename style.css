@@ -67,7 +67,7 @@ li > a {
   top: 47%;
   display: none;
 }
-.burger:before {
+.burger::before {
   content: "";
   width: 23px;
   height: 2px;
