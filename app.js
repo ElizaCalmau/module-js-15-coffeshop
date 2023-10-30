@@ -136,13 +136,8 @@ function createProdBtn(currentProd, currentObj){
 }
 createProducts(shopStock);
 
-
-
-
-
 //functions which add items to cart
   function renderInCart(cart){ // cart - user Cart array. This func render item in cart
-    
     cart.forEach((item)=>{
       const cartItemWrapper = createCartItem(); 
       createCartImg(cartItemWrapper, item); // creates container with photo of prod
@@ -215,7 +210,6 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
   let stockQ;
 
   function decreaseStock (){//change quantity in stock
-    //debugger;
     shopStock.forEach( (el) => {
       if(el.id == cartId) {
         stockQ = el.stockQuantity;
@@ -238,7 +232,6 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
   
   
   increaseCartBtn.addEventListener('click', function(){ //increase quantity of prod in cart (not mutch than quantity in stock)
-    //debugger;
     let num = Number(currentQuantity.innerText);
     decreaseStock();// -1 in stock
     if(stockQ > 0){
@@ -261,10 +254,13 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
     }
     
     if(n < 1){
+      //debugger;
       currentProd.remove();
       currentItem.quantity = 0;
-      userCart = []
-      checkButton(document.querySelector('.added_to_cart'));
+      
+      let index = userCart.indexOf(currentItem);
+      userCart.splice(index, 1);
+      checkButton(document.querySelectorAll('.added_to_cart'), currentItem.id);
       checkCart()
     }
     console.log(userCart);
@@ -296,11 +292,7 @@ function checkCart(){ //check state of cart and changes styles according to stat
     checkout.classList.add('cart_actions');
     checkout.classList.add('non_active');
     message.style.display = 'flex';
-    greenCardCheck.style.display = 'none';
-    // button.innerText = 'ADD TO CART';
-    // button.classList.add('prod_btn');
-    // button.classList.remove('added_to_cart');
-      
+    greenCardCheck.style.display = 'none';   
     } else {
     checkout.classList.remove('non_active');
     checkout.classList.add('cart_actions');
@@ -308,11 +300,17 @@ function checkCart(){ //check state of cart and changes styles according to stat
     greenCardCheck.style.display = 'block';
   }
 }
-function checkButton(button){//if element deleted from cart remove 'Added to cart'
+function checkButton(buttons, id){//if element deleted from cart remove 'Added to cart'
   if(userCart.length === 0){
-    button.innerText = 'ADD TO CART';
-    button.classList.add('prod_btn');
-    button.classList.remove('added_to_cart');
+    buttons.forEach((button) => {
+      let buttonId = button.getAttribute('id');
+      if(buttonId == id){
+         button.innerText = 'ADD TO CART';
+         button.classList.add('prod_btn');
+         button.classList.remove('added_to_cart');
+      }
+    })
+   
   }
 }
 
@@ -341,8 +339,11 @@ function replaceProduct(btn){//this func add prod to user cart (arr) and reduces
       if (userCart.length === 0){
         userCart.push(userProd);
       }else {
-        userCart = [];
+        //userCart = [];
+        //debugger;
+        
         userCart.push(userProd);
+        userCart.splice(0,1);
       }
       decreaseStockQuantity(prod);
       renderInCart(userCart);
