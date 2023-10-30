@@ -33,8 +33,7 @@ BTW you can change visiblity of cart by clicking a sign of cart in header. Also 
 
 ### What user see ###
 By clicking **'ADD TO CART'** styles of button will be changed. The cart container will appear in right top corner under the header.
-
-If there's no items in cart **'Checkout'** button will be gray and you'll see message **'Сart is empty'**. If there any item in cart if you will click on **'Checkout'** and cursor will turn to 'wait' state which imitates page loading, but you have to hover on it to see.
+If there's no items in cart **'Checkout'** button will be gray and you'll see message **'Сart is empty'**.
 
 The **green check singn** will apper in cart icon (in header) if there's any item in cart and will disappear if you'll delete all items from it.
 The same way if cart is empty button **'Added to cart'** will turn to initial state.
