@@ -87,9 +87,9 @@ function createProducts(objects) { //main function which calls other to create p
   createProdDescriber(currentProduct, obj);
   createProdPrice(currentProduct, obj);
   const currentBtn = createProdBtn(currentProduct, obj);
-  currentBtn.addEventListener('click', function(obj){
+  currentBtn.addEventListener('click', function(){
     addToCart(currentBtn);
-  }, { once: true });//add once
+  });//add once
 
   cartIcon.addEventListener('click', changeCartVisibility)
   })
@@ -137,12 +137,13 @@ function createProdBtn(currentProd, currentObj){
 createProducts(shopStock);
 
 //functions which add items to cart
-  function renderInCart(cart){ // cart - user Cart array. This func render item in cart
-    cart.forEach((item)=>{
+  function renderInCart(item){ // cart - user Cart array. This func render item in cart
+    //debugger;
+    //item.forEach((item)=>{
       const cartItemWrapper = createCartItem(); 
       createCartImg(cartItemWrapper, item); // creates container with photo of prod
       createCartInfo(cartItemWrapper, item) //// creates container with information about product
-    })
+    
     
   }
   
@@ -198,7 +199,7 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
   
   const currentQuantity = document.createElement('div');
   currentQuantity.classList.add('quantity');
-  currentQuantity.innerText = currentItem.quantity;
+  currentQuantity.innerText = currentItem.stockQuantity;
   
   const increaseCartBtn = document.createElement('span'); 
   increaseCartBtn.classList.add('after');
@@ -228,27 +229,27 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       }
     })
   }
-  
-  
-  
-  increaseCartBtn.addEventListener('click', function(){ //increase quantity of prod in cart (not mutch than quantity in stock)
+  increaseCartBtn.addEventListener('click', updateCartQuantityPlus)
+  decreaseCartBtn.addEventListener('click', updateCartQuantityMinus)
+  function updateCartQuantityPlus(){
+    //increase quantity of prod in cart (not mutch than quantity in stock)
     let num = Number(currentQuantity.innerText);
     decreaseStock();// -1 in stock
     if(stockQ > 0){
       num += 1;
       currentQuantity.innerText = num;
-      currentItem.quantity +=1;
+      currentItem.stockQuantity +=1;
       caclTotal(currentItem.price)
     }
     console.log(userCart);
-  })
+  }
 
-  decreaseCartBtn.addEventListener('click', function(){//decrease quantity of prod in cart, remove if 0 products
+  function updateCartQuantityMinus(){//decrease quantity of prod in cart, remove if 0 products
     let n = Number(currentQuantity.innerText);
     if(n > 0){
       increaseStock();
       n -= 1;
-      currentItem.quantity -=1;
+      currentItem.stockQuantity -=1;
       currentQuantity.innerText = n;
       caclTotal(-currentItem.price);
     }
@@ -256,7 +257,7 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
     if(n < 1){
       //debugger;
       currentProd.remove();
-      currentItem.quantity = 0;
+      currentItem.stockQuantity = 0;
       
       let index = userCart.indexOf(currentItem);
       userCart.splice(index, 1);
@@ -264,8 +265,12 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       checkCart()
     }
     console.log(userCart);
-  })
+
+  }
   
+  
+  
+
 
   quantityWrapper.append(decreaseCartBtn, currentQuantity, increaseCartBtn);
   wrapper.append(quantityWrapper);
@@ -280,8 +285,40 @@ function addToCart(btn){  //add item to cart
   greenCardCheck.style.display = 'block';
   cartContainer.style.height = 'fit-content';
   cartContainer.classList.add('visible');
-  replaceProduct(btn);
-  checkCart()
+  //replaceProduct(btn);
+
+  shopStock.forEach( (obj) => {
+    //debugger;
+    if(obj.id == btn.id){ 
+      if(userCart.length > 0){
+        userCart.forEach( (prod) => {
+          if(prod.id == btn.id){
+            prod.stockQuantity += 1;
+            document.querySelector('.quantity').innerText = prod.stockQuantity;
+          }
+        })
+      } else {
+        console.log('ok');
+      userCart.push({...obj});
+
+      userCart.forEach( (prod) => {
+        prod.stockQuantity = 1;
+        renderInCart(prod);
+      }
+      )
+      }
+      
+
+      console.log(userCart);
+      decreaseStockQuantity(obj);
+      console.log(obj);
+      caclTotal(obj.price);
+      //renderInCart(userCart);
+      
+    }
+  })
+  
+  checkCart();
 }
 function changeCartVisibility(){ //allows to show and hide cart
   cartContainer.classList.toggle('visible');
@@ -339,15 +376,13 @@ function replaceProduct(btn){//this func add prod to user cart (arr) and reduces
       if (userCart.length === 0){
         userCart.push(userProd);
       }else {
-        //userCart = [];
-        //debugger;
-        
+        //userCart = [];        
         userCart.push(userProd);
         userCart.splice(0,1);
       }
       decreaseStockQuantity(prod);
       renderInCart(userCart);
-      caclTotal(prod.price)
+      caclTotal(prod.price);
       }
       
   })
