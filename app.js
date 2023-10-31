@@ -89,7 +89,7 @@ function createProducts(objects) { //main function which calls other to create p
   const currentBtn = createProdBtn(currentProduct, obj);
   currentBtn.addEventListener('click', function(){
     addToCart(currentBtn);
-  });//add once
+  });
 
   cartIcon.addEventListener('click', changeCartVisibility)
   })
@@ -142,9 +142,7 @@ createProducts(shopStock);
     //item.forEach((item)=>{
       const cartItemWrapper = createCartItem(); 
       createCartImg(cartItemWrapper, item); // creates container with photo of prod
-      createCartInfo(cartItemWrapper, item) //// creates container with information about product
-    
-    
+      createCartInfo(cartItemWrapper, item) //// creates container with information about product  
   }
   
 function createCartItem(){ //creates an empty wrapper for item in cart
@@ -190,15 +188,17 @@ function createItemPrice(wrapper, currentItem){ // add price and weight (cart)
 }
 
 function createItemQuantity(wrapper, currentItem, currentProd){ //changes quantity in cart (also in stock)
+  
   const quantityWrapper = document.createElement('div'); 
   quantityWrapper.classList.add('cart_quantity');
 
   const decreaseCartBtn = document.createElement('span'); 
   decreaseCartBtn.classList.add('before');
   decreaseCartBtn.innerText = '<';
-  
+
   const currentQuantity = document.createElement('div');
   currentQuantity.classList.add('quantity');
+  currentQuantity.setAttribute('id', currentItem.id)
   currentQuantity.innerText = currentItem.stockQuantity;
   
   const increaseCartBtn = document.createElement('span'); 
@@ -276,7 +276,7 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
   wrapper.append(quantityWrapper);
 }
 
-
+const productsIdArray = [];
 //actions with cart
 function addToCart(btn){  //add item to cart 
   btn.innerText = 'Added to cart ✓';
@@ -285,39 +285,56 @@ function addToCart(btn){  //add item to cart
   greenCardCheck.style.display = 'block';
   cartContainer.style.height = 'fit-content';
   cartContainer.classList.add('visible');
-  //replaceProduct(btn);
 
   shopStock.forEach( (obj) => {
     //debugger;
     if(obj.id == btn.id){ 
       if(userCart.length > 0){
-        userCart.forEach( (prod) => {
-          if(prod.id == btn.id){
-            prod.stockQuantity += 1;
-            document.querySelector('.quantity').innerText = prod.stockQuantity;
+        userCart.forEach( (item) => {
+          let btnId = Number(btn.id)
+          if(productsIdArray.includes(btnId)){ //if prod with such id is already in cart
+            let productsQuantites = document.querySelectorAll('.quantity')
+            productsQuantites.forEach( (el) => {
+              let id = el.getAttribute('id')
+              if(id == btn.id && id != 3 && item.id == id){
+                item.stockQuantity += 1;
+                el.innerText = item.stockQuantity;
+              }
+              productsIdArray.push(obj.id);
+              decreaseStockQuantity(obj);
+              console.log(obj)
+            })
+            console.log(userCart);
+            caclTotal(obj.price);
+          } 
+          else{ // if 
+            productsIdArray.push(obj.id);
+            userCart.push({...obj});
+            userCart[userCart.length - 1].stockQuantity = 1;
+            renderInCart(userCart[userCart.length - 1]);
+            decreaseStockQuantity(obj);
+            caclTotal(obj.price);
+            return;
           }
         })
-      } else {
+      } else { //when user cart is empty
         console.log('ok');
-      userCart.push({...obj});
-
-      userCart.forEach( (prod) => {
-        prod.stockQuantity = 1;
-        renderInCart(prod);
+        userCart.push({...obj});
+        userCart.forEach( (item) => {
+        item.stockQuantity = 1;
+        productsIdArray.push(item.id);
+        renderInCart(item);
+        decreaseStockQuantity(obj);
+        console.log(userCart);
+        console.log(obj);
+        caclTotal(obj.price);
       }
       )
       }
-      
-
-      console.log(userCart);
-      decreaseStockQuantity(obj);
-      console.log(obj);
-      caclTotal(obj.price);
-      //renderInCart(userCart);
-      
     }
+    
   })
-  
+  console.log(userCart)
   checkCart();
 }
 function changeCartVisibility(){ //allows to show and hide cart
@@ -361,35 +378,7 @@ function decreaseStockQuantity(prod){ //decrease quantity in stock
   prod.stockQuantity -= 1;
 }
 
-function replaceProduct(btn){//this func add prod to user cart (arr) and reduces quantity in stock
-  shopStock.forEach((prod) => {
-    if(prod.id == btn.id){ 
-      console.log(prod); //show prod in stock 
-      const userProd = {  //create new product and push it to user cart
-        id: prod.id,
-        name : prod.name,
-        price: prod.price,
-        weight: prod.weight,
-        quantity: 1,
-        imgURL: prod.imgURL,
-      }
-      if (userCart.length === 0){
-        userCart.push(userProd);
-      }else {
-        //userCart = [];        
-        userCart.push(userProd);
-        userCart.splice(0,1);
-      }
-      decreaseStockQuantity(prod);
-      renderInCart(userCart);
-      caclTotal(prod.price);
-      }
-      
-  })
-  console.log(userCart); //show item from cart in console
-}
 checkCart();
-
 
 window.addEventListener("scroll", function(){//fixes cart in top of the viewport
 //console.log(this.window.scrollY);
