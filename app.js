@@ -229,9 +229,7 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       }
     })
   }
-  increaseCartBtn.addEventListener('click', updateCartQuantityPlus)
-  decreaseCartBtn.addEventListener('click', updateCartQuantityMinus)
-  function updateCartQuantityPlus(){
+  increaseCartBtn.addEventListener('click', function(){
     //increase quantity of prod in cart (not mutch than quantity in stock)
     let num = Number(currentQuantity.innerText);
     decreaseStock();// -1 in stock
@@ -242,9 +240,8 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       caclTotal(currentItem.price)
     }
     console.log(userCart);
-  }
-
-  function updateCartQuantityMinus(){//decrease quantity of prod in cart, remove if 0 products
+  })
+  decreaseCartBtn.addEventListener('click', function (){//decrease quantity of prod in cart, remove if 0 products
     let n = Number(currentQuantity.innerText);
     if(n > 0){
       increaseStock();
@@ -255,18 +252,22 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
     }
     
     if(n < 1){
-      //debugger;
       currentProd.remove();
       currentItem.stockQuantity = 0;
-      
-      let index = userCart.indexOf(currentItem);
-      userCart.splice(index, 1);
-      checkButton(document.querySelectorAll('.added_to_cart'), currentItem.id);
+      let indexOfItem = userCart.indexOf(currentItem);
+      userCart.splice(indexOfItem, 1);
+
+      let index = productsIdArray.indexOf(currentProd.id);
+         if(index !== 0){
+          productsIdArray.splice(index, 1);
+         console.log(productsIdArray)
+         }   
+      checkButton(document.querySelectorAll('.added_to_cart'), currentItem);
       checkCart()
     }
     console.log(userCart);
 
-  }
+  })
   
   
   
@@ -354,18 +355,24 @@ function checkCart(){ //check state of cart and changes styles according to stat
     greenCardCheck.style.display = 'block';
   }
 }
-function checkButton(buttons, id){//if element deleted from cart remove 'Added to cart'
-  if(userCart.length === 0){
+function checkButton(buttons, item){//if element deleted from cart remove 'Added to cart'
+  //if(userCart.length === 0){
+  
     buttons.forEach((button) => {
-      let buttonId = button.getAttribute('id');
-      if(buttonId == id){
+      let buttonId = Number(button.getAttribute('id'));
+      if(buttonId == item.id){
          button.innerText = 'ADD TO CART';
-         button.classList.add('prod_btn');
          button.classList.remove('added_to_cart');
+         button.classList.add('prod_btn');
+         let index = productsIdArray.indexOf(buttonId);
+         if(index !== 0){
+          productsIdArray.splice(index, 1);
+         console.log(productsIdArray)
+         }   
       }
     })
    
-  }
+  
 }
 
 function caclTotal(price){
