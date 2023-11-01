@@ -23,17 +23,17 @@ https://www.figma.com/file/J5ICcTOaaaErQXfqgwvpjw/CoffeShop-Mockup-Module-JS-15?
 
 ### Architecture ###
 Products are creating dynamicly in JS from array of products; Product images are takes by link from this github repo.
-There's an array of products called **Shop Stock**. Quantity of each product will reduce in stock if you will add it to your cart (by clicking button 'ADD TO CART', cart is also array with objects), every change you can see in console. You can use **'ADD TO CART'** button only single time on each product.
+There's an array of products called **Shop Stock**. Quantity of each product will reduce in stock if you will add it to your cart (by clicking button 'ADD TO CART', cart is also array with objects), every change you can see in console. You can use **'ADD TO CART'** button as many times as you want to increase quantity of items in cart.
 You can **not** order more products than it was in stock. 
 
-Changing product quantity is happening when you click buttons "<" and ">" right in the cart (the current quantity in stock and in your cart you can check in console). If quantity less than 1 the item will be **removed** from your cart.
+Changing product quantity is also happening when you click buttons "<" and ">" right in the cart (the current quantity in stock and in your cart you can check in console). If quantity less than 1 the item will be **removed** from your cart. But you can add it **again** by clicking 'ADD TO CART' button.
 BTW you can change visiblity of cart by clicking a sign of cart in header. Also you can hide cart by clicking **'Continue shopping'** button in cart.
 
 **'Total'** shows and calculate total price amount of all items in your cart according to it quantity and cost.
 
 ### What user see ###
 By clicking **'ADD TO CART'** styles of button will be changed. The cart container will appear in right top corner under the header.
-If there's no items in cart **'Checkout'** button will be gray and you'll see message **'Сart is empty'**.
+If there's no items in cart **'Checkout'** button will be gray and you'll see message **'Сart is empty'**. If you'll add some items on cart and click on **'Checkout'** button the cursor will turn to 'wait' state which imitates loading of the page.
 
 The **green check singn** will apper in cart icon (in header) if there's any item in cart and will disappear if you'll delete all items from it.
 The same way if cart is empty button **'Added to cart'** will turn to initial state.
