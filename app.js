@@ -87,9 +87,9 @@ function createProducts(objects) { //main function which calls other to create p
   createProdDescriber(currentProduct, obj);
   createProdPrice(currentProduct, obj);
   const currentBtn = createProdBtn(currentProduct, obj);
-  currentBtn.addEventListener('click', function(obj){
+  currentBtn.addEventListener('click', function(){
     addToCart(currentBtn);
-  }, { once: true });//add once
+  });
 
   cartIcon.addEventListener('click', changeCartVisibility)
   })
@@ -136,19 +136,13 @@ function createProdBtn(currentProd, currentObj){
 }
 createProducts(shopStock);
 
-
-
-
-
 //functions which add items to cart
-  function renderInCart(cart){ // cart - user Cart array. This func render item in cart
-    
-    cart.forEach((item)=>{
+  function renderInCart(item){ // cart - user Cart array. This func render item in cart
+    //debugger;
+    //item.forEach((item)=>{
       const cartItemWrapper = createCartItem(); 
       createCartImg(cartItemWrapper, item); // creates container with photo of prod
-      createCartInfo(cartItemWrapper, item) //// creates container with information about product
-    })
-    
+      createCartInfo(cartItemWrapper, item) //// creates container with information about product  
   }
   
 function createCartItem(){ //creates an empty wrapper for item in cart
@@ -194,16 +188,18 @@ function createItemPrice(wrapper, currentItem){ // add price and weight (cart)
 }
 
 function createItemQuantity(wrapper, currentItem, currentProd){ //changes quantity in cart (also in stock)
+  
   const quantityWrapper = document.createElement('div'); 
   quantityWrapper.classList.add('cart_quantity');
 
   const decreaseCartBtn = document.createElement('span'); 
   decreaseCartBtn.classList.add('before');
   decreaseCartBtn.innerText = '<';
-  
+
   const currentQuantity = document.createElement('div');
   currentQuantity.classList.add('quantity');
-  currentQuantity.innerText = currentItem.quantity;
+  currentQuantity.setAttribute('id', currentItem.id)
+  currentQuantity.innerText = currentItem.stockQuantity;
   
   const increaseCartBtn = document.createElement('span'); 
   increaseCartBtn.classList.add('after');
@@ -215,7 +211,6 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
   let stockQ;
 
   function decreaseStock (){//change quantity in stock
-    //debugger;
     shopStock.forEach( (el) => {
       if(el.id == cartId) {
         stockQ = el.stockQuantity;
@@ -234,48 +229,55 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       }
     })
   }
-  
-  
-  
-  increaseCartBtn.addEventListener('click', function(){ //increase quantity of prod in cart (not mutch than quantity in stock)
-    //debugger;
+  increaseCartBtn.addEventListener('click', function(){
+    //increase quantity of prod in cart (not mutch than quantity in stock)
     let num = Number(currentQuantity.innerText);
     decreaseStock();// -1 in stock
     if(stockQ > 0){
       num += 1;
       currentQuantity.innerText = num;
-      currentItem.quantity +=1;
-      caclTotal(currentItem.price)
+      currentItem.stockQuantity +=1;
+      calcTotal(currentItem.price)
     }
     console.log(userCart);
   })
-
-  decreaseCartBtn.addEventListener('click', function(){//decrease quantity of prod in cart, remove if 0 products
+  decreaseCartBtn.addEventListener('click', function (){//decrease quantity of prod in cart, remove if 0 products
     let n = Number(currentQuantity.innerText);
     if(n > 0){
       increaseStock();
       n -= 1;
-      currentItem.quantity -=1;
+      currentItem.stockQuantity -=1;
       currentQuantity.innerText = n;
-      caclTotal(-currentItem.price);
+      calcTotal(-currentItem.price);
     }
     
     if(n < 1){
       currentProd.remove();
-      currentItem.quantity = 0;
-      userCart = []
-      checkButton(document.querySelector('.added_to_cart'));
+      currentItem.stockQuantity = 0;
+      let indexOfItem = userCart.indexOf(currentItem);
+      userCart.splice(indexOfItem, 1);
+
+      let index = productsIdArray.indexOf(currentProd.id);
+         if(index !== 0){
+          productsIdArray.splice(index, 1);
+         console.log(productsIdArray)
+         }   
+      checkButton(document.querySelectorAll('.added_to_cart'), currentItem);
       checkCart()
     }
     console.log(userCart);
+
   })
   
+  
+  
+
 
   quantityWrapper.append(decreaseCartBtn, currentQuantity, increaseCartBtn);
   wrapper.append(quantityWrapper);
 }
 
-
+const productsIdArray = [];
 //actions with cart
 function addToCart(btn){  //add item to cart 
   btn.innerText = 'Added to cart ✓';
@@ -284,8 +286,57 @@ function addToCart(btn){  //add item to cart
   greenCardCheck.style.display = 'block';
   cartContainer.style.height = 'fit-content';
   cartContainer.classList.add('visible');
-  replaceProduct(btn);
-  checkCart()
+
+  shopStock.forEach( (obj) => {
+    //debugger;
+    if(obj.id == btn.id){ 
+      if(userCart.length > 0){
+        userCart.forEach( (item) => {
+          let btnId = Number(btn.id)
+          if(productsIdArray.includes(btnId)){ //if prod with such id is already in cart
+            let productsQuantites = document.querySelectorAll('.quantity')
+            productsQuantites.forEach( (el) => {
+              let id = el.getAttribute('id')
+              if(id == btn.id && id != 3 && item.id == id){
+                item.stockQuantity += 1;
+                el.innerText = item.stockQuantity;
+              }
+              productsIdArray.push(obj.id);
+              decreaseStockQuantity(obj);
+              console.log(obj)
+            })
+            console.log(userCart);
+            calcTotal(obj.price);
+          } 
+          else{ // if 
+            productsIdArray.push(obj.id);
+            userCart.push({...obj});
+            userCart[userCart.length - 1].stockQuantity = 1;
+            renderInCart(userCart[userCart.length - 1]);
+            decreaseStockQuantity(obj);
+            calcTotal(obj.price);
+            return;
+          }
+        })
+      } else { //when user cart is empty
+        console.log('ok');
+        userCart.push({...obj});
+        userCart.forEach( (item) => {
+        item.stockQuantity = 1;
+        productsIdArray.push(item.id);
+        renderInCart(item);
+        decreaseStockQuantity(obj);
+        console.log(userCart);
+        console.log(obj);
+        calcTotal(obj.price);
+      }
+      )
+      }
+    }
+    
+  })
+  console.log(userCart)
+  checkCart();
 }
 function changeCartVisibility(){ //allows to show and hide cart
   cartContainer.classList.toggle('visible');
@@ -296,11 +347,7 @@ function checkCart(){ //check state of cart and changes styles according to stat
     checkout.classList.add('cart_actions');
     checkout.classList.add('non_active');
     message.style.display = 'flex';
-    greenCardCheck.style.display = 'none';
-    // button.innerText = 'ADD TO CART';
-    // button.classList.add('prod_btn');
-    // button.classList.remove('added_to_cart');
-      
+    greenCardCheck.style.display = 'none';   
     } else {
     checkout.classList.remove('non_active');
     checkout.classList.add('cart_actions');
@@ -308,15 +355,27 @@ function checkCart(){ //check state of cart and changes styles according to stat
     greenCardCheck.style.display = 'block';
   }
 }
-function checkButton(button){//if element deleted from cart remove 'Added to cart'
-  if(userCart.length === 0){
-    button.innerText = 'ADD TO CART';
-    button.classList.add('prod_btn');
-    button.classList.remove('added_to_cart');
-  }
+function checkButton(buttons, item){//if element deleted from cart remove 'Added to cart'
+  //if(userCart.length === 0){
+  
+    buttons.forEach((button) => {
+      let buttonId = Number(button.getAttribute('id'));
+      if(buttonId == item.id){
+         button.innerText = 'ADD TO CART';
+         button.classList.remove('added_to_cart');
+         button.classList.add('prod_btn');
+         let index = productsIdArray.indexOf(buttonId);
+         if(index !== 0){
+          productsIdArray.splice(index, 1);
+         console.log(productsIdArray)
+         }   
+      }
+    })
+   
+  
 }
 
-function caclTotal(price){
+function calcTotal(price){
   let priceNum = Number(totalPrice.innerText);
   priceNum += price;
   totalPrice.innerText = priceNum;
@@ -326,34 +385,7 @@ function decreaseStockQuantity(prod){ //decrease quantity in stock
   prod.stockQuantity -= 1;
 }
 
-function replaceProduct(btn){//this func add prod to user cart (arr) and reduces quantity in stock
-  shopStock.forEach((prod) => {
-    if(prod.id == btn.id){ 
-      console.log(prod); //show prod in stock 
-      const userProd = {  //create new product and push it to user cart
-        id: prod.id,
-        name : prod.name,
-        price: prod.price,
-        weight: prod.weight,
-        quantity: 1,
-        imgURL: prod.imgURL,
-      }
-      if (userCart.length === 0){
-        userCart.push(userProd);
-      }else {
-        userCart = [];
-        userCart.push(userProd);
-      }
-      decreaseStockQuantity(prod);
-      renderInCart(userCart);
-      caclTotal(prod.price)
-      }
-      
-  })
-  console.log(userCart); //show item from cart in console
-}
 checkCart();
-
 
 window.addEventListener("scroll", function(){//fixes cart in top of the viewport
 //console.log(this.window.scrollY);
