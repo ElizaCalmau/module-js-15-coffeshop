@@ -237,7 +237,7 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       num += 1;
       currentQuantity.innerText = num;
       currentItem.stockQuantity +=1;
-      caclTotal(currentItem.price)
+      calcTotal(currentItem.price)
     }
     console.log(userCart);
   })
@@ -248,7 +248,7 @@ function createItemQuantity(wrapper, currentItem, currentProd){ //changes quanti
       n -= 1;
       currentItem.stockQuantity -=1;
       currentQuantity.innerText = n;
-      caclTotal(-currentItem.price);
+      calcTotal(-currentItem.price);
     }
     
     if(n < 1){
@@ -306,7 +306,7 @@ function addToCart(btn){  //add item to cart
               console.log(obj)
             })
             console.log(userCart);
-            caclTotal(obj.price);
+            calcTotal(obj.price);
           } 
           else{ // if 
             productsIdArray.push(obj.id);
@@ -314,7 +314,7 @@ function addToCart(btn){  //add item to cart
             userCart[userCart.length - 1].stockQuantity = 1;
             renderInCart(userCart[userCart.length - 1]);
             decreaseStockQuantity(obj);
-            caclTotal(obj.price);
+            calcTotal(obj.price);
             return;
           }
         })
@@ -328,7 +328,7 @@ function addToCart(btn){  //add item to cart
         decreaseStockQuantity(obj);
         console.log(userCart);
         console.log(obj);
-        caclTotal(obj.price);
+        calcTotal(obj.price);
       }
       )
       }
@@ -375,7 +375,7 @@ function checkButton(buttons, item){//if element deleted from cart remove 'Added
   
 }
 
-function caclTotal(price){
+function calcTotal(price){
   let priceNum = Number(totalPrice.innerText);
   priceNum += price;
   totalPrice.innerText = priceNum;
