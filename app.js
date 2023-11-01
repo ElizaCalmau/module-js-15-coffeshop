@@ -297,18 +297,19 @@ function addToCart(btn){  //add item to cart
             let productsQuantites = document.querySelectorAll('.quantity')
             productsQuantites.forEach( (el) => {
               let id = el.getAttribute('id')
-              if(id == btn.id && id != 3 && item.id == id){
+              if(id == btn.id && item.id == id){
                 item.stockQuantity += 1;
                 el.innerText = item.stockQuantity;
+                calcTotal(obj.price);
               }
               productsIdArray.push(obj.id);
               decreaseStockQuantity(obj);
               console.log(obj)
             })
             console.log(userCart);
-            calcTotal(obj.price);
+            
           } 
-          else{ // if 
+          else{
             productsIdArray.push(obj.id);
             userCart.push({...obj});
             userCart[userCart.length - 1].stockQuantity = 1;
